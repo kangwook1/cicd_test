@@ -46,4 +46,4 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script_stop: true
           script: |
-            sh deploy/deploy.sh
+            sh deploy/script.sh
