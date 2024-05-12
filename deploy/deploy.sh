@@ -1,4 +1,3 @@
-#!/bin/bash
 echo "> 현재 USER NAME을 가져옵니다."
 CURRENT_USER=$(whoami)
 echo "> download 폴더에서 build된 .jar 파일을 가져옵니다."
