@@ -45,5 +45,5 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           script_stop: true
-          script: |
-            sh ./deploy/deploy.sh
+          run: chmod +x deploy/deploy.sh
+          script: sh ./deploy/deploy.sh
