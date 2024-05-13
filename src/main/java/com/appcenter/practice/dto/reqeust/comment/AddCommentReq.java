@@ -16,7 +16,7 @@ public class AddCommentReq {
         return Comment.builder()
                 .content(content)
                 .deleted(false)
-                .toDo(todo)
+                .todo(todo)
                 .build();
     }
 }
