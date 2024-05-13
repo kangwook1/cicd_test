@@ -25,8 +25,8 @@ public class CommentService {
     private final TodoRepository todoRepository;
 
 
-    public List<ReadCommentRes> getCommentList(){
-        return commentRepository.findAll().stream()
+    public List<ReadCommentRes> getCommentList(Long id){
+        return commentRepository.findAllBytodo(id).stream()
                 .map(comment-> ReadCommentRes.from(comment))
                 .collect(Collectors.toList());
     }

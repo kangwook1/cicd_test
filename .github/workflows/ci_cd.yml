@@ -27,6 +27,7 @@ jobs:
       - name: Run build with Gradle Wrapper
         run: ./gradlew build
 
+      #CD 파트
       - name: Send file to the server
         uses: appleboy/scp-action@master
         with:

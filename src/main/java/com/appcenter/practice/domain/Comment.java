@@ -26,14 +26,14 @@ public class Comment extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "toDo_Id",nullable = false)
-    private Todo toDo;
+    private Todo todo;
 
 
     @Builder
-    private Comment(String content,Boolean deleted, Todo toDo) {
+    private Comment(String content,Boolean deleted, Todo todo) {
         this.content = content;
         this.deleted = deleted;
-        this.toDo = toDo;
+        this.todo = todo;
     }
 
     public void changeDeleted(Boolean deleted){ this.deleted=deleted;}
