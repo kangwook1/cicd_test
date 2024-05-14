@@ -14,9 +14,9 @@ jobs:
 
       - name: Add prod_properties
         run: |
-          touch ./src/main/resources/prod.properties
-          echo "${{ secrets.PROD_PROPERTIES }}" > ./src/main/resources/prod.properties
-          cat ./src/main/resources/prod.properties
+          touch ./src/main/resources/application-prod.properties
+          echo "${{ secrets.PROD_PROPERTIES }}" > ./src/main/resources/application-prod.properties
+          cat ./src/main/resources/application-prod.properties
           
       - name: Set Java
         uses: actions/setup-java@v3
