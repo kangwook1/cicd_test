@@ -32,7 +32,7 @@ public class Todo extends BaseEntity {
     @JoinColumn(name = "member_id",nullable = false)
     private Member member;
 
-    @OneToMany(mappedBy = "toDo",cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "todo",cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Comment> commentList= new ArrayList<>();
 
     @Builder

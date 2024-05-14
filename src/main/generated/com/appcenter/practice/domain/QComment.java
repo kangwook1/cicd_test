@@ -36,7 +36,7 @@ public class QComment extends EntityPathBase<Comment> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
 
-    public final QTodo toDo;
+    public final QTodo todo;
 
     public QComment(String variable) {
         this(Comment.class, forVariable(variable), INITS);
@@ -56,7 +56,7 @@ public class QComment extends EntityPathBase<Comment> {
 
     public QComment(Class<? extends Comment> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.toDo = inits.isInitialized("toDo") ? new QTodo(forProperty("toDo"), inits.get("toDo")) : null;
+        this.todo = inits.isInitialized("todo") ? new QTodo(forProperty("todo"), inits.get("todo")) : null;
     }
 
 }

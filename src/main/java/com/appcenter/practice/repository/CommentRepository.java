@@ -9,5 +9,5 @@ import java.util.Optional;
 
 public interface CommentRepository extends JpaRepository<Comment,Long> {
 
-    List<Comment> findAllBytodo(Long todoId);
+    List<Comment> findAllBytodo(Todo todo);
 }
