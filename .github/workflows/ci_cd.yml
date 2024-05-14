@@ -14,6 +14,7 @@ jobs:
 
       - name: Add prod_properties
         run: |
+          mkdir ./src/main/resources
           touch ./src/main/resources/application-prod.properties
           echo "${{ secrets.PROD_PROPERTIES }}" > ./src/main/resources/application-prod.properties
           cat ./src/main/resources/application-prod.properties
