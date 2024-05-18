@@ -1,6 +1,7 @@
 package com.appcenter.practice.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.validation.BindingResult;
@@ -9,10 +10,16 @@ import org.springframework.validation.FieldError;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Schema(description= "에러 응답 DTO")
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)// Null 값인 필드 json으로 보낼 시 제외
 public class ErrorResponse {
+
+    @Schema(title = "에러 메시지",description = "에러 메시지", example = "에러 메시지")
     private final String message;
+
+    @Schema(title = "유효성 검사 에러 발생 시 내용들",description = "유효성 검사 에러 발생 시 내용들")
+
     private final List<ValidationError> validationErrors;
 
     @Builder
@@ -23,8 +30,14 @@ public class ErrorResponse {
 
     @Getter
     public static class ValidationError{
+
+        @Schema(title = "유효성 검사 에러난 항목",description = "유효성 검사 에러난 항목",example = "유효성 검사 에러난 항목")
         private String field;
+
+        @Schema(title = "유효성 검사 에러난 항목의 값",description = "유효성 검사 에러난 항목의 값",example = "유효성 검사 에러난 항목의 값")
         private String value;
+
+        @Schema(title = "유효성 검사 에러난 이유",description = "유효성 검사 에러난 이유",example = "유효성 검사 에러난 이유")
         private String reason;
 
         private ValidationError(String field, String value, String reason) {

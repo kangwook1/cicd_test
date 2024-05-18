@@ -18,10 +18,14 @@ public class MemberService {
 
     @Transactional
     public Long signup(SignupMemberReq reqDto){
-        if(memberRepository.existsByEmail(reqDto.getEmail()))
-            throw new CustomException(StatusCode.EMAIL_DUPLICATED);
+        checkEmailDuplicated(reqDto.getEmail());
         Member member=reqDto.toEntity();
         member.addUserAuthority();
         return memberRepository.save(member).getId();
+    }
+
+    private void checkEmailDuplicated(String email){
+        if(memberRepository.existsByEmail(email))
+            throw new CustomException(StatusCode.EMAIL_DUPLICATED);
     }
 }
