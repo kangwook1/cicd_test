@@ -18,8 +18,7 @@ public class ErrorResponse {
     @Schema(title = "에러 메시지",description = "에러 메시지", example = "에러 메시지")
     private final String message;
 
-    @Schema(title = "유효성 검사 에러 발생 시 내용들",description = "유효성 검사 에러 발생 시 내용들")
-
+    @Schema(description = "유효성 검사 에러 발생 시 내용들")
     private final List<ValidationError> validationErrors;
 
     @Builder
