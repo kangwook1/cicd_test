@@ -38,7 +38,7 @@ public class MemberController {
             @ApiResponse(responseCode = "201", description = "멤버 생성 성공",content= @Content(schema = @Schema(implementation = CommonResponse.class))),
             @ApiResponse(responseCode = "400", description = "유효하지 않은 입력입니다",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping
-    public ResponseEntity<CommonResponse<Long>> signup( @RequestBody @Valid SignupMemberReq reqDto){
+    public ResponseEntity<CommonResponse<Long>> signup(@RequestBody @Valid SignupMemberReq reqDto){
         return ResponseEntity
                 .status(MEMBER_CREATE.getStatus())
                 .body(CommonResponse.of(MEMBER_CREATE.getMessage(), memberService.signup(reqDto)));

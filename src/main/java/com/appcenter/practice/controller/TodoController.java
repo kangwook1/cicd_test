@@ -40,13 +40,13 @@ public class TodoController {
     }
 
     @Operation(summary = "단일 투두 조회", description = "투두 아이디를 입력하세요.",
-            parameters = @Parameter(name = "todoId", description = "투두 id", example = "1"))
+            parameters = @Parameter(name = "todoId", description = "투두 Id", example = "1"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "투두 조회 성공",content= @Content(schema = @Schema(implementation = CommonResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 투두입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<CommonResponse<ReadTodoRes>> getTodo(@PathVariable Long id){
-        return ResponseEntity.ok(CommonResponse.of(TODO_FOUND.getMessage(),todoService.getTodo(id)));
+    @GetMapping(value = "/{todoId}")
+    public ResponseEntity<CommonResponse<ReadTodoRes>> getTodo(@PathVariable Long todoId){
+        return ResponseEntity.ok(CommonResponse.of(TODO_FOUND.getMessage(),todoService.getTodo(todoId)));
     }
 
     @Operation(summary = "투두 생성", description = "시큐리티 구현을 하지 않았으므로, 요청 DTO에 email을 입력하세요.")
@@ -62,15 +62,15 @@ public class TodoController {
     }
 
     @Operation(summary = "투두 수정", description = "투두 아이디를 입력하세요.",
-            parameters = @Parameter(name = "todoId", description = "투두 id", example = "1"))
+            parameters = @Parameter(name = "todoId", description = "투두 Id", example = "1"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "투두 수정 성공",content= @Content(schema = @Schema(implementation = CommonResponse.class))),
             @ApiResponse(responseCode = "400", description = "유효하지 않은 입력입니다",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 투두입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
-    @PatchMapping(value = "/{id}")
-    public ResponseEntity<CommonResponse<Long>> updateTodo(@PathVariable Long id, @RequestBody @Valid UpdateTodoReq reqDto){
+    @PatchMapping(value = "/{todoId}")
+    public ResponseEntity<CommonResponse<Long>> updateTodo(@PathVariable Long todoId, @RequestBody @Valid UpdateTodoReq reqDto){
         return ResponseEntity
-                .ok(CommonResponse.of(TODO_UPDATE.getMessage(),todoService.updateTodo(id,reqDto)));
+                .ok(CommonResponse.of(TODO_UPDATE.getMessage(),todoService.updateTodo(todoId,reqDto)));
     }
 
     @Operation(summary = "투두 완료", description = "투두 아이디를 입력하세요. 투두의 완료 상태가 토글됩니다.",
@@ -78,10 +78,10 @@ public class TodoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "투두 완료 상태 변경 성공",content= @Content(schema = @Schema(implementation = CommonResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 멤버입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
-    @PatchMapping(value = "/{id}/complete")
-    public ResponseEntity<CommonResponse<Long>> completeTodo(@PathVariable Long id){
+    @PatchMapping(value = "/{todoId}/complete")
+    public ResponseEntity<CommonResponse<Long>> completeTodo(@PathVariable Long todoId){
         return ResponseEntity
-                .ok(CommonResponse.of(TODO_UPDATE.getMessage(),todoService.completeTodo(id)));
+                .ok(CommonResponse.of(TODO_UPDATE.getMessage(),todoService.completeTodo(todoId)));
     }
 
     @Operation(summary = "투두 삭제", description = "투두 아이디를 입력하세요.",
@@ -89,10 +89,10 @@ public class TodoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "투두 삭제 성공",content= @Content(schema = @Schema(implementation = CommonResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 멤버입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<CommonResponse<Long>> deleteTodo(@PathVariable Long id){
+    @DeleteMapping(value = "/{todoId}")
+    public ResponseEntity<CommonResponse<Long>> deleteTodo(@PathVariable Long todoId){
         return ResponseEntity
-                .ok(CommonResponse.of(TODO_DELETE.getMessage(),todoService.deleteTodo(id)));
+                .ok(CommonResponse.of(TODO_DELETE.getMessage(),todoService.deleteTodo(todoId)));
     }
 
 }

@@ -24,6 +24,7 @@ import static com.appcenter.practice.common.StatusCode.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/comments")
 public class CommentController {
     private final CommentService commentService;
 
@@ -32,10 +33,10 @@ public class CommentController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "댓글 리스트 조회 성공",content= @Content(schema = @Schema(implementation = CommonResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 투두입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
-    @GetMapping(value = "/todos{id}/comments")
-    public ResponseEntity<CommonResponse<List<ReadCommentRes>>>getCommentList(@PathVariable Long id){
+    @GetMapping
+    public ResponseEntity<CommonResponse<List<ReadCommentRes>>>getCommentList(@RequestParam Long todoId){
         return ResponseEntity
-                .ok(CommonResponse.of(COMMENT_FOUND.getMessage(), commentService.getCommentList(id)));
+                .ok(CommonResponse.of(COMMENT_FOUND.getMessage(), commentService.getCommentList(todoId)));
     }
 
 
@@ -44,10 +45,10 @@ public class CommentController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "댓글 조회 성공",content= @Content(schema = @Schema(implementation = CommonResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 댓글입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
-    @GetMapping(value = "/comments/{id}")
-    public ResponseEntity<CommonResponse<ReadCommentRes>>getComment(@PathVariable Long id){
+    @GetMapping(value = "/{commentId}")
+    public ResponseEntity<CommonResponse<ReadCommentRes>>getComment(@PathVariable Long commentId){
         return ResponseEntity
-                .ok(CommonResponse.of(COMMENT_FOUND.getMessage(), commentService.getComment(id)));
+                .ok(CommonResponse.of(COMMENT_FOUND.getMessage(), commentService.getComment(commentId)));
     }
 
 
@@ -57,8 +58,8 @@ public class CommentController {
             @ApiResponse(responseCode = "201", description = "댓글 생성 성공",content= @Content(schema = @Schema(implementation = CommonResponse.class))),
             @ApiResponse(responseCode = "400", description = "유효하지 않은 입력입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 투두입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
-    @PostMapping(value = "/todos/{id}/comments")
-    public ResponseEntity<CommonResponse<Long>> addComment(@PathVariable("id") Long todoId, @RequestBody @Valid AddCommentReq reqDto){
+    @PostMapping
+    public ResponseEntity<CommonResponse<Long>> addComment(@RequestParam Long todoId, @RequestBody @Valid AddCommentReq reqDto){
         return ResponseEntity
                 .status(COMMENT_CREATE.getStatus())
                 .body(CommonResponse.of(COMMENT_CREATE.getMessage(), commentService.saveComment(todoId,reqDto)));
@@ -70,10 +71,10 @@ public class CommentController {
             @ApiResponse(responseCode = "200", description = "댓글 조회 성공",content= @Content(schema = @Schema(implementation = CommonResponse.class))),
             @ApiResponse(responseCode = "400", description = "유효하지 않은 입력입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 댓글입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
-    @PatchMapping(value = "/comments/{id}")
-    public ResponseEntity<CommonResponse<Long>> updateComment(@PathVariable Long id, @RequestBody @Valid UpdateCommentReq reqDto){
+    @PatchMapping(value = "/{commentId}")
+    public ResponseEntity<CommonResponse<Long>> updateComment(@PathVariable Long commentId, @RequestBody @Valid UpdateCommentReq reqDto){
         return ResponseEntity
-                .ok(CommonResponse.of(COMMENT_UPDATE.getMessage(), commentService.updateComment(id,reqDto)));
+                .ok(CommonResponse.of(COMMENT_UPDATE.getMessage(), commentService.updateComment(commentId,reqDto)));
     }
 
     @Operation(summary = "댓글 삭제", description ="댓글 아이디를 입력하세요.",
@@ -81,9 +82,9 @@ public class CommentController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "댓글 삭제 성공",content= @Content(schema = @Schema(implementation = CommonResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 댓글입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
-    @DeleteMapping(value = "/comments/{id}")
-    public ResponseEntity<CommonResponse<Long>> deleteComment(@PathVariable Long id){
+    @DeleteMapping(value = "/{commentId}")
+    public ResponseEntity<CommonResponse<Long>> deleteComment(@PathVariable Long commentId){
         return ResponseEntity
-                .ok(CommonResponse.of(COMMENT_DELETE.getMessage(), commentService.deleteComment(id)));
+                .ok(CommonResponse.of(COMMENT_DELETE.getMessage(), commentService.deleteComment(commentId)));
     }
 }
