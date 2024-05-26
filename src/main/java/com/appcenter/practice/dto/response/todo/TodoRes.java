@@ -23,10 +23,10 @@ public class TodoRes {
     @Schema(title = "완료 여부",description = "완료 했는지 확인", example = "false")
     private final Boolean completed;
 
-    @Schema(title = "생성 시간",description = "댓글 생성 시간", example = "2024-05-26T14:25:07.546")
+    @Schema(title = "생성 시간",description = "댓글 생성 시간", example = "2024-05-26T14:25:07")
     private final LocalDateTime createdTime;
 
-    @Schema(title = "수정 시간",description = "댓글 수정 시간", example = "2024-05-26T14:25:09.846")
+    @Schema(title = "수정 시간",description = "댓글 수정 시간", example = "2024-05-26T14:25:09")
     private final LocalDateTime modifiedTime;
 
 

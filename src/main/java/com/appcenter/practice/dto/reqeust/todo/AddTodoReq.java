@@ -4,6 +4,7 @@ import com.appcenter.practice.domain.Member;
 import com.appcenter.practice.domain.Todo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -19,7 +20,7 @@ public class AddTodoReq {
 
     @Schema(title = "마감 기한",description = "필수 입력, (yyyy-MM-dd)형태로 작성",
             example = "2024-05-25")
-    @NotBlank(message = "deadLine은 필수 입력 값입니다.")
+    @NotNull(message = "마감일은 null일 수 없습니다.")
     private LocalDate deadLine;
 
 
