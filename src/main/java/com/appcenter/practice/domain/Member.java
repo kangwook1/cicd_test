@@ -35,6 +35,9 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member",cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Todo> todoList =new ArrayList<>();
 
+    @OneToMany(mappedBy = "member",cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<Comment> commentList =new ArrayList<>();
+
     @Builder
     private Member(String email, String password, String nickname) {
         this.email = email;

@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
+import java.time.LocalDate;
+
 @Schema(description = "투두 변경 요청 DTO")
 @Getter
 public class UpdateTodoReq {
@@ -13,4 +15,8 @@ public class UpdateTodoReq {
     @NotBlank(message = "content는 필수 입력값입니다.")
     String content;
 
+    @Schema(title = "마감 기한",description = "필수 입력, (yyyy-MM-dd)형태로 작성",
+            example = "2024-05-25")
+    @NotBlank(message = "deadLine은 필수 입력 값입니다.")
+    private LocalDate deadLine;
 }

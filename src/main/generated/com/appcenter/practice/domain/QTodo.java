@@ -33,6 +33,8 @@ public class QTodo extends EntityPathBase<Todo> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
 
+    public final DatePath<java.time.LocalDate> deadLine = createDate("deadLine", java.time.LocalDate.class);
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final QMember member;

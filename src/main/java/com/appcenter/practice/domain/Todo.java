@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,11 @@ public class Todo extends BaseEntity {
     @Column(nullable = false)
     private String content;
 
+    @Column(nullable = false)
+    private LocalDate deadLine;
+
     // boolean은 null값을 가질 수 없다. 기본적으로 false값을 가진다. Boolean 클래스 객체는 null값을 가질 수 있다.
+    @Column(nullable = false)
     private Boolean completed;
 
 
@@ -36,8 +41,9 @@ public class Todo extends BaseEntity {
     private List<Comment> commentList= new ArrayList<>();
 
     @Builder
-    private Todo(String content,Boolean completed, Member member) {
+    private Todo(String content,LocalDate deadLine, Boolean completed, Member member) {
         this.content = content;
+        this.deadLine= deadLine;
         this.completed = completed;
         this.member = member;
     }

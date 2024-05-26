@@ -2,6 +2,7 @@ package com.appcenter.practice.dto.reqeust.comment;
 
 
 import com.appcenter.practice.domain.Comment;
+import com.appcenter.practice.domain.Member;
 import com.appcenter.practice.domain.Todo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -16,10 +17,11 @@ public class AddCommentReq {
     @NotBlank(message = "content는 필수 입력값입니다.")
     private String content;
 
-    public Comment toEntity(Todo todo){
+    public Comment toEntity(Member member,Todo todo){
         return Comment.builder()
                 .content(content)
                 .deleted(false)
+                .member(member)
                 .todo(todo)
                 .build();
     }

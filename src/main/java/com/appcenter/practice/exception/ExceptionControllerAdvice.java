@@ -1,12 +1,16 @@
 package com.appcenter.practice.exception;
 
 
-import com.appcenter.practice.common.StatusCode;
 import com.appcenter.practice.dto.response.ErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.time.format.DateTimeParseException;
+
+import static com.appcenter.practice.common.StatusCode.DATE_FORMAT_INVALID;
+import static com.appcenter.practice.common.StatusCode.INPUT_VALUE_INVALID;
 
 @RestControllerAdvice
 public class ExceptionControllerAdvice{
@@ -19,12 +23,20 @@ public class ExceptionControllerAdvice{
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(MethodArgumentNotValidException e){
-
         ErrorResponse errorResponse= ErrorResponse.builder()
-                .message(StatusCode.INPUT_VALUE_INVALID.getMessage())
+                .message(INPUT_VALUE_INVALID.getMessage())
                 .validationErrors(ErrorResponse.ValidationError.from(e.getBindingResult()))
                 .build();
-        return ResponseEntity.status(StatusCode.INPUT_VALUE_INVALID.getStatus())
+        return ResponseEntity.status(INPUT_VALUE_INVALID.getStatus())
+                .body(errorResponse);
+    }
+
+    @ExceptionHandler(DateTimeParseException.class)
+    public ResponseEntity<ErrorResponse> handleDateTimeParseException(DateTimeParseException e) {
+        ErrorResponse errorResponse= ErrorResponse.builder()
+                .message(DATE_FORMAT_INVALID.getMessage())
+                .build();
+        return ResponseEntity.status(DATE_FORMAT_INVALID.getStatus())
                 .body(errorResponse);
     }
 

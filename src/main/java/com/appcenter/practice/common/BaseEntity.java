@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+@Getter// getter 상속
 @MappedSuperclass// 매핑 정보만 상속한다.
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {

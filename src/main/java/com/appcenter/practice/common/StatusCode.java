@@ -26,6 +26,10 @@ public enum StatusCode {
     /* 400 BAD_REQUEST : 잘못된 요청 */
     LOGIN_ID_INVALID(BAD_REQUEST,"아이디가 틀렸습니다."),
     INPUT_VALUE_INVALID(BAD_REQUEST,"유효하지 않은 입력입니다."),
+    DATE_FORMAT_INVALID(BAD_REQUEST,"유효하지 않은 날짜 형식입니다."),
+
+    /* 403 FORBIDDEN : 권한 없음 */
+    AUTHORIZATION_INVALID(FORBIDDEN,"권한이 없는 사용자입니다."),
 
     /* 404 NOT_FOUNT : 존재하지 않는 리소스 */
     MEMBER_NOT_EXIST(NOT_FOUND,"존재하지 않는 멤버입니다."),

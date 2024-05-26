@@ -23,16 +23,21 @@ public class Comment extends BaseEntity {
     //삭제 여부에 따라 "삭제된 댓글입니다." 작성
     private Boolean deleted;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_Id",nullable = false)
+    private Member member;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "toDo_Id",nullable = false)
+    @JoinColumn(name = "todo_Id",nullable = false)
     private Todo todo;
 
 
     @Builder
-    private Comment(String content,Boolean deleted, Todo todo) {
+    private Comment(String content,Boolean deleted, Member member, Todo todo) {
         this.content = content;
         this.deleted = deleted;
+        this.member = member;
         this.todo = todo;
     }
 
