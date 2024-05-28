@@ -1,8 +1,8 @@
 package com.appcenter.practice.controller;
 
 
-import com.appcenter.practice.dto.reqeust.todo.AddTodoReq;
-import com.appcenter.practice.dto.reqeust.todo.UpdateTodoReq;
+import com.appcenter.practice.dto.request.todo.AddTodoReq;
+import com.appcenter.practice.dto.request.todo.UpdateTodoReq;
 import com.appcenter.practice.dto.response.CommonResponse;
 import com.appcenter.practice.dto.response.ErrorResponse;
 import com.appcenter.practice.dto.response.todo.TodoRes;
@@ -59,8 +59,9 @@ public class TodoController {
             "내부적으로 jwt의 멤버 아이디와 쿼리 스트링으로 받아온 멤버 아이디를 비교해 권한을 체크합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "투두 생성 성공",content= @Content(schema = @Schema(implementation = CommonResponseTodoRes.class))),
-            @ApiResponse(responseCode = "400", description = "유효하지 않은 입력입니다",content= @Content(schema = @Schema(implementation = ErrorResponse.class,subTypes = TodoRes.class))),
-            @ApiResponse(responseCode = "400", description = "유효하지 않은 날짜 형식입니다",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "400", description = "유효하지 않은 입력입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "400", description = "유효하지 않은 날짜 형식입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "401", description = "유효하지 않은 jwt토큰입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "403", description = "권한이 없는 사용자입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 멤버입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping
@@ -76,8 +77,9 @@ public class TodoController {
             parameters = @Parameter(name = "todoId", description = "투두 Id", example = "1"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "투두 수정 성공",content= @Content(schema = @Schema(implementation = CommonResponseTodoRes.class))),
-            @ApiResponse(responseCode = "400", description = "유효하지 않은 입력입니다",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "400", description = "유효하지 않은 날짜 형식입니다",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "400", description = "유효하지 않은 입력입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "400", description = "유효하지 않은 날짜 형식입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "401", description = "유효하지 않은 jwt토큰입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "403", description = "권한이 없는 사용자입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 투두입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @PatchMapping(value = "/{todoId}")
@@ -92,6 +94,7 @@ public class TodoController {
             parameters = @Parameter(name = "todoId", description = "투두 id", example = "1"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "투두 완료 상태 변경 성공",content= @Content(schema = @Schema(implementation = CommonResponseTodoRes.class))),
+            @ApiResponse(responseCode = "401", description = "유효하지 않은 jwt토큰입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "403", description = "권한이 없는 사용자입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 멤버입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @PatchMapping(value = "/{todoId}/complete")
@@ -107,6 +110,7 @@ public class TodoController {
             parameters = @Parameter(name = "todoId", description = "투두 id", example = "1"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "투두 삭제 성공",content= @Content(schema = @Schema(implementation = CommonResponse.class))),
+            @ApiResponse(responseCode = "401", description = "유효하지 않은 jwt토큰입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "403", description = "권한이 없는 사용자입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 멤버입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @DeleteMapping(value = "/{todoId}")

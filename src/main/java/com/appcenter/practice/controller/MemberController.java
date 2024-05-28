@@ -1,6 +1,7 @@
 package com.appcenter.practice.controller;
 
-import com.appcenter.practice.dto.reqeust.member.SignupMemberReq;
+import com.appcenter.practice.dto.request.member.LoginMemberReq;
+import com.appcenter.practice.dto.request.member.SignupMemberReq;
 import com.appcenter.practice.dto.response.CommonResponse;
 import com.appcenter.practice.dto.response.ErrorResponse;
 import com.appcenter.practice.service.MemberService;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.appcenter.practice.common.StatusCode.MEMBER_CREATE;
+import static com.appcenter.practice.common.StatusCode.MEMBER_LOGIN;
 
 
 @Tag(name = "Member", description = "Member API 입니다.")
@@ -42,6 +45,20 @@ public class MemberController {
         return ResponseEntity
                 .status(MEMBER_CREATE.getStatus())
                 .body(CommonResponse.of(MEMBER_CREATE.getMessage(), memberService.signup(reqDto)));
+    }
+
+
+    @Operation(summary = "멤버 로그인", description ="이메일과 패스워드로 유효성검사를 한 뒤 응답 헤더에 jwt토큰을 전달합니다.<br>"+
+    "응답 바디엔 아무 정보도 없습니다. 로그인 뒤 정보가 필요하면 멤버 정보조회를 해주세요.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "멤버 생성 성공",content= @Content(schema = @Schema(implementation = CommonResponse.class))),
+            @ApiResponse(responseCode = "400", description = "유효하지 않은 입력입니다",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
+    @PostMapping(value = "/login")
+    public ResponseEntity<CommonResponse<Void>> login(@RequestBody @Valid LoginMemberReq signInMemberReqDto){
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.AUTHORIZATION,  memberService.login(signInMemberReqDto))
+                .body(CommonResponse.of(MEMBER_LOGIN.getMessage(), null));
     }
 
 }

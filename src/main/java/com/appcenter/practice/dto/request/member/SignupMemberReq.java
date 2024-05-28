@@ -1,12 +1,14 @@
-package com.appcenter.practice.dto.reqeust.member;
+package com.appcenter.practice.dto.request.member;
 
 
 import com.appcenter.practice.domain.Member;
+import com.appcenter.practice.domain.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Schema(description = "회원가입 요청 DTO")
 @Getter
@@ -32,11 +34,12 @@ public class SignupMemberReq {
     private String nickname;
 
 
-    public Member toEntity(){
+    public Member toEntity(PasswordEncoder passwordEncoder){
         return Member.builder()
                 .email(email)
-                .password(password)
+                .password(passwordEncoder.encode(password))
                 .nickname(nickname)
+                .role(Role.ROLE_USER)
                 .build();
     }
 }

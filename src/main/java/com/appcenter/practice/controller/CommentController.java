@@ -1,8 +1,8 @@
 package com.appcenter.practice.controller;
 
 
-import com.appcenter.practice.dto.reqeust.comment.AddCommentReq;
-import com.appcenter.practice.dto.reqeust.comment.UpdateCommentReq;
+import com.appcenter.practice.dto.request.comment.AddCommentReq;
+import com.appcenter.practice.dto.request.comment.UpdateCommentReq;
 import com.appcenter.practice.dto.response.CommonResponse;
 import com.appcenter.practice.dto.response.ErrorResponse;
 import com.appcenter.practice.dto.response.comment.CommentRes;
@@ -42,20 +42,7 @@ public class CommentController {
                 .ok(CommonResponse.of(COMMENT_FOUND.getMessage(), commentService.getCommentList(todoId)));
     }
 
-
-//    @Operation(summary = "단일 댓글 조회", description ="댓글 아이디를 통해 댓글을 조회합니다.",
-//            parameters = @Parameter(name = "commentId", description = "댓글 id", example = "1"))
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "댓글 조회 성공",content= @Content(schema = @Schema(implementation = CommonResponse.class))),
-//            @ApiResponse(responseCode = "404", description = "존재하지 않는 댓글입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
-//    @GetMapping(value = "/{commentId}")
-//    public ResponseEntity<CommonResponse<ReadCommentRes>>getComment(@PathVariable Long commentId){
-//        return ResponseEntity
-//                .ok(CommonResponse.of(COMMENT_FOUND.getMessage(), commentService.getComment(commentId)));
-//    }
-
-
-    @Operation(summary = "댓글 생성", description ="쿼리스트링으로 입력한 투두의 아이디로 댓글을 달 투두를 찾고 댓글을 생성합니다.",
+    @Operation(summary = "댓글 생성", description ="쿼리 스트링으로 입력한 투두의 아이디로 댓글을 달 투두를 찾고 댓글을 생성합니다.",
             parameters = @Parameter(name = "todoId", description = "투두 id", example = "1"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "댓글 생성 성공",content= @Content(schema = @Schema(implementation = CommonResponseCommentRes.class))),
@@ -74,6 +61,7 @@ public class CommentController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "댓글 조회 성공",content= @Content(schema = @Schema(implementation = CommonResponseCommentRes.class))),
             @ApiResponse(responseCode = "400", description = "유효하지 않은 입력입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "401", description = "유효하지 않은 jwt 토큰입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "403", description = "권한이 없는 사용자입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 댓글입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @PatchMapping(value = "/{commentId}")
@@ -89,6 +77,7 @@ public class CommentController {
             parameters = @Parameter(name = "commentId", description = "댓글 id", example = "1"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "댓글 삭제 성공",content= @Content(schema = @Schema(implementation = CommonResponse.class))),
+            @ApiResponse(responseCode = "401", description = "유효하지 않은 jwt 토큰입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "403", description = "권한이 없는 사용자입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 댓글입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @DeleteMapping(value = "/{commentId}")

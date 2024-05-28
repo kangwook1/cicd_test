@@ -27,6 +27,15 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0' // 접속 url: localhost:8080/swagger-ui/index.html
 	implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.11'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	// JWT
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	/*
+	패키지안에 있는 javax.xml.bind.DatatypeConverter 클래스를 이용해서,
+	jwt토큰을 생성할 때 서명에 쓸 secret key가 base64로 인코딩된 문자열로 넣어도 내부적으로 디코딩해서 알맞는 값으로 넣어주는 역할을 한다.
+	그 클래스가 없으면 직접 base64로 secretkey를 디코딩하고 서명에 쓸 키를 따로 만들어줘야한다.
+	 */
+	implementation 'javax.xml.bind:jaxb-api:2.3.1'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'

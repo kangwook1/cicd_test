@@ -1,4 +1,4 @@
-package com.appcenter.practice.dto.reqeust.todo;
+package com.appcenter.practice.dto.request.todo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;

@@ -1,4 +1,4 @@
-package com.appcenter.practice.dto.reqeust.comment;
+package com.appcenter.practice.dto.request.comment;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;
