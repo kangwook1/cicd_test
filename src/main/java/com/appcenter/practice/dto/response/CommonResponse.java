@@ -2,6 +2,7 @@ package com.appcenter.practice.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +18,7 @@ public class CommonResponse<T>{
 
     private  T response;
 
+    @Builder
     private CommonResponse(String message, T response) {
         this.message = message;
         this.response = response;
@@ -27,6 +29,5 @@ public class CommonResponse<T>{
     //이를 통해 메소드 호출 시 원하는 타입의 객체를 생성할 수 있다.
     public static <T> CommonResponse<T> of(String message, T response){
         return new CommonResponse<T>(message,response);
-
     }
 }
