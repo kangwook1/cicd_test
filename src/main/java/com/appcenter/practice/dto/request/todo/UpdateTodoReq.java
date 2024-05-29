@@ -17,6 +17,5 @@ public class UpdateTodoReq {
 
     @Schema(title = "마감 기한",description = "필수 입력, (yyyy-MM-dd)형태로 작성",
             example = "2024-05-25")
-    @NotBlank(message = "deadLine은 필수 입력 값입니다.")
     private LocalDate deadLine;
 }

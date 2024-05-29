@@ -30,4 +30,10 @@ public class CommonResponse<T>{
     public static <T> CommonResponse<T> of(String message, T response){
         return new CommonResponse<T>(message,response);
     }
+
+    public static CommonResponse<Object> from(String message){
+        return CommonResponse.builder()
+                .message(message)
+                .build();
+    }
 }

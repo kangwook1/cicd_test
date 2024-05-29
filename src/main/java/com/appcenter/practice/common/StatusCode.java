@@ -17,12 +17,13 @@ public enum StatusCode {
     TODO_CREATE(CREATED,"할 일 생성 완료"),
     TODO_FOUND(OK,"할 일 조회 완료"),
     TODO_UPDATE(OK,"할 일 수정 완료"),
+    TODO_COMPLETE(OK,"할 일 상태 토글 완료"),
     TODO_DELETE(OK,"할 일 삭제 완료"),
     // Comment
     COMMENT_CREATE(CREATED,"댓글 생성 완료"),
     COMMENT_FOUND(OK,"댓글 조회 완료"),
-    COMMENT_UPDATE(OK,"할 일 수정 완료"),
-    COMMENT_DELETE(OK,"할 일 삭제 완료"),
+    COMMENT_UPDATE(OK,"댓글 수정 완료"),
+    COMMENT_DELETE(OK,"댓글 삭제 완료"),
 
     /* 400 BAD_REQUEST : 잘못된 요청 */
     LOGIN_ID_INVALID(BAD_REQUEST,"아이디가 틀렸습니다."),

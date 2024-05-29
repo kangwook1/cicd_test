@@ -54,11 +54,12 @@ public class MemberController {
             @ApiResponse(responseCode = "201", description = "멤버 생성 성공",content= @Content(schema = @Schema(implementation = CommonResponse.class))),
             @ApiResponse(responseCode = "400", description = "유효하지 않은 입력입니다",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping(value = "/login")
-    public ResponseEntity<CommonResponse<Void>> login(@RequestBody @Valid LoginMemberReq signInMemberReqDto){
+    public ResponseEntity<CommonResponse<Object>> login(@RequestBody @Valid LoginMemberReq signInMemberReqDto){
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION,  memberService.login(signInMemberReqDto))
-                .body(CommonResponse.of(MEMBER_LOGIN.getMessage(), null));
+                .body(CommonResponse.from(MEMBER_LOGIN.getMessage()));
     }
+
 
 }

@@ -13,6 +13,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/*
+       GenericFilterBean을 자바 빈으로 등록하면 포워딩이나 다른 서블릿으로 dispatch(보내지는) 경우, 해당 필터가 다시 실행되는 문제가 발생한다.
+       이를 해결하기 위해서는 한번의 요청에 한번만 필터가 작동하는 OncePerRequestFilter을 상속받으면 된다.
+*/
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
