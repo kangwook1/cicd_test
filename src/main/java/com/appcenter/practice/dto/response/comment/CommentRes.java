@@ -3,6 +3,7 @@ package com.appcenter.practice.dto.response.comment;
 
 import com.appcenter.practice.domain.Comment;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 @Schema(description= "댓글 응답 DTO")
 @Getter
 public class CommentRes {
-    @Schema(title = "댓글 아이디",description = "댓글 아이디", example = "1")
+    @Schema(title = "댓글 Id",description = "댓글 Id", example = "1")
     private final Long commentId;
 
     @Schema(title = "내용",description = "내용", example = "멋있어요")
@@ -31,6 +32,7 @@ public class CommentRes {
     @Schema(title = "수정 시간",description = "댓글 수정 시간", example = "2024-05-26T14:25:09")
     private final LocalDateTime modifiedTime;
 
+    @Builder
     private CommentRes(Long commentId, String content, Boolean deleted, String nickname, Long memberId, LocalDateTime createdTime, LocalDateTime modifiedTime) {
         this.commentId = commentId;
         this.content = content;
@@ -45,7 +47,15 @@ public class CommentRes {
         this.content = content;
     }
 
-    public static CommentRes from(Comment comment){
-        return new CommentRes(comment.getId(),comment.getContent(),comment.getDeleted(),comment.getMember().getNickname(),comment.getMember().getId(),comment.getCreatedDate(),comment.getModifiedDate());
+    public static CommentRes from(Comment comment) {
+        return CommentRes.builder()
+                .commentId(comment.getId())
+                .content(comment.getContent())
+                .deleted(comment.getDeleted())
+                .nickname(comment.getMember().getNickname())
+                .memberId(comment.getMember().getId())
+                .createdTime(comment.getCreatedDate())
+                .modifiedTime(comment.getModifiedDate())
+                .build();
     }
 }

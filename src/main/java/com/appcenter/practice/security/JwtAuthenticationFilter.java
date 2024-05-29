@@ -46,7 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if(jwtTokenProvider.validateToken(accessToken)){
 
-            Authentication authentication=jwtTokenProvider.getAuthentication(accessToken);
+            Authentication authentication=jwtTokenProvider.getAuthentication(accessToken); //MEMBER_NOT_EXIST 오류 가능성
 
             /*
             contextHolder에 인증객체저장. 인가과정을 거친 후 해당 인증객체는 삭제된다.

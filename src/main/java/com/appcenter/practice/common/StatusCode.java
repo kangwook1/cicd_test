@@ -12,16 +12,19 @@ public enum StatusCode {
     /* 2xx: 성공 */
     // Member
     MEMBER_CREATE(CREATED,"회원 가입 완료"),
+    MEMBER_FOUND(OK,"멤버 조회 완료"),
+    MEMBER_UPDATE(OK,"멤버 수정 완료"),
+    MEMBER_DELETE(OK,"회원탈퇴 완료"),
     MEMBER_LOGIN(OK,"로그인 완료"),
     // TodoList
     TODO_CREATE(CREATED,"할 일 생성 완료"),
-    TODO_FOUND(OK,"할 일 조회 완료"),
+    TODO_LIST_FOUND(OK,"할 일 목록 조회 완료"),
     TODO_UPDATE(OK,"할 일 수정 완료"),
     TODO_COMPLETE(OK,"할 일 상태 토글 완료"),
     TODO_DELETE(OK,"할 일 삭제 완료"),
     // Comment
     COMMENT_CREATE(CREATED,"댓글 생성 완료"),
-    COMMENT_FOUND(OK,"댓글 조회 완료"),
+    COMMENT_LIST_FOUND(OK,"댓글 목록 조회 완료"),
     COMMENT_UPDATE(OK,"댓글 수정 완료"),
     COMMENT_DELETE(OK,"댓글 삭제 완료"),
 
@@ -35,7 +38,6 @@ public enum StatusCode {
     ACCESS_TOKEN_INVALID(UNAUTHORIZED,"jwt 토큰이 유효하지 않습니다."),
 
     /* 403 FORBIDDEN : 권한 없음 */
-    AUTHORIZATION_INVALID(FORBIDDEN,"권한이 없는 사용자입니다."),
 
     /* 404 NOT_FOUNT : 존재하지 않는 리소스 */
     MEMBER_NOT_EXIST(NOT_FOUND,"존재하지 않는 멤버입니다."),

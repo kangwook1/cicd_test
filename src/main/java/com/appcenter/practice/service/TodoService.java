@@ -25,58 +25,50 @@ public class TodoService {
     private final MemberRepository memberRepository;
 
 
-    public List<TodoRes> getTodoList(Long memberId){
+    public List<TodoRes> getMyTodoList(Long memberId){
         Member member=findByMemberId(memberId);
         return  member.getTodoList().stream()
                 .map(TodoRes::from)
                 .collect(Collectors.toList());
     }
 
-//    public TodoRes getTodo(Long id){
-//        Todo todo=findByTodoId(id);
-//        return TodoRes.from(todo);
-//    }
+    public List<TodoRes> getOtherUserTodoList(String nickname){
+        Member member=memberRepository.findByNickname(nickname)
+                .orElseThrow(()-> new CustomException(MEMBER_NOT_EXIST));
+        return  member.getTodoList().stream()
+                .map(TodoRes::from)
+                .collect(Collectors.toList());
+    }
+
 
 
     @Transactional
-    public TodoRes saveTodo(Long jwtMemberId, Long memberId, AddTodoReq reqDto){
-        if(jwtMemberId.equals(memberId)){
-            Member member=findByMemberId(memberId);
-            Todo todo=todoRepository.save(reqDto.toEntity(member));
-            return TodoRes.from(todo);
-        }
-        else
-            throw new CustomException(AUTHORIZATION_INVALID);
+    public TodoRes saveTodo(Long memberId, AddTodoReq reqDto){
+        Member member=findByMemberId(memberId);
+        Todo todo=todoRepository.save(reqDto.toEntity(member));
+        return TodoRes.from(todo);
     }
 
     @Transactional
-    public TodoRes updateTodo(Long memberId, Long todoId,UpdateTodoReq reqDto){
-        Member member=findByMemberId(memberId);
+    public TodoRes updateTodo(Long todoId,UpdateTodoReq reqDto){
         Todo todo=findByTodoId(todoId);
-        if(checkAuthorization(member,todo))
-            todo.changeContent(reqDto.getContent());
+        todo.changeContent(reqDto.getContent());
 
         return TodoRes.from(todo);
     }
 
     @Transactional
-    public TodoRes completeTodo(Long memberId, Long todoId){
-        Member member=findByMemberId(memberId);
+    public TodoRes completeTodo(Long todoId){
         Todo todo=findByTodoId(todoId);
-        if(checkAuthorization(member,todo))
-            todo.changeCompleted();
+        todo.changeCompleted();
 
         return TodoRes.from(todo);
     }
 
     @Transactional
-    public Long deleteTodo(Long memberId, Long todoId){
-        Member member=findByMemberId(memberId);
+    public void deleteTodo(Long todoId){
         Todo todo=findByTodoId(todoId);
-        if(checkAuthorization(member,todo))
-            todoRepository.deleteById(todoId);
-
-        return todoId;
+        todoRepository.deleteById(todo.getId());
     }
 
     private Todo findByTodoId(Long todoId) {
@@ -89,10 +81,4 @@ public class TodoService {
                 .orElseThrow(()->new CustomException(MEMBER_NOT_EXIST));
     }
 
-    private boolean checkAuthorization(Member member,Todo todo){
-        if(member.getId().equals(todo.getMember().getId()))
-            return true;
-        else
-            throw new CustomException(AUTHORIZATION_INVALID);
-    }
 }

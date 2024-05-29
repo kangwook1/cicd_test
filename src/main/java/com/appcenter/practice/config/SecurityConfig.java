@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -27,8 +26,8 @@ public class SecurityConfig {
     @Value("${security.public-endpoints}")
     private String[] publicEndpoints;
 
-    @Value("${security.get-endpoints}")
-    private String[] getMethodEndpoints;
+    @Value("${security.post-endpoints}")
+    private String[] postEndpoints;
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -49,8 +48,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorizeRequest -> authorizeRequest
                         .requestMatchers(publicEndpoints).permitAll()
-                        // 조회 요청은 로그인하지 않아도 할 수 있게 한다.
-                        .requestMatchers(HttpMethod.GET,getMethodEndpoints).permitAll()
+                        .requestMatchers(postEndpoints).permitAll()
                         //스프링 시큐리티는 자동으로 Role_접두어를 붙여준다.
                         .requestMatchers("/**").hasRole("USER")
                         .anyRequest().authenticated())

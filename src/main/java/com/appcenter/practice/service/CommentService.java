@@ -18,8 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.appcenter.practice.common.StatusCode.AUTHORIZATION_INVALID;
-
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -55,23 +53,17 @@ public class CommentService {
     }
 
     @Transactional
-    public CommentRes updateComment(Long memberId, Long commentId, UpdateCommentReq reqDto){
-        Member member=findByMemberId(memberId);
+    public CommentRes updateComment(Long commentId, UpdateCommentReq reqDto){
         Comment comment= findByCommentId(commentId);
-        if(checkAuthorization(member,comment))
-            comment.changeContent(reqDto.getContent());
+        comment.changeContent(reqDto.getContent());
 
         return CommentRes.from(comment);
     }
 
     @Transactional
-    public CommentRes deleteComment(Long memberId, Long commentId){
-        Member member=findByMemberId(memberId);
+    public void deleteComment(Long commentId){
         Comment comment=findByCommentId(commentId);
-        if(checkAuthorization(member,comment))
-            comment.changeDeleted(true);
-
-        return CommentRes.from(comment);
+        comment.changeDeleted(true);
     }
 
     private Comment findByCommentId(Long id){
@@ -89,10 +81,4 @@ public class CommentService {
                 .orElseThrow(() -> new CustomException(StatusCode.MEMBER_NOT_EXIST));
     }
 
-    private boolean checkAuthorization(Member member,Comment comment){
-        if(member.getId().equals(comment.getMember().getId()))
-            return true;
-        else
-            throw new CustomException(AUTHORIZATION_INVALID);
-    }
 }
