@@ -1,7 +1,7 @@
-package com.appcenter.practice.dto.request.todo;
+package com.appcenter.practice.dto.request.bucket;
 
 import com.appcenter.practice.domain.Bucket;
-import com.appcenter.practice.domain.Todo;
+import com.appcenter.practice.domain.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -9,12 +9,12 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 
-@Schema(description = "투두 생성 요청 DTO")
+@Schema(description = "버킷 생성 요청 DTO")
 @Getter
-public class AddTodoReq {
+public class AddBucketReq {
 
     @Schema(title = "내용",description = "필수 입력",
-            example = "토익하기")
+            example = "교환학생 가기")
     @NotBlank(message = "content는 필수 입력 값입니다.")
     private String content;
 
@@ -24,12 +24,12 @@ public class AddTodoReq {
     private LocalDate deadLine;
 
 
-    public Todo toEntity(Bucket bucket){
-        return Todo.builder()
+    public Bucket toEntity(Member member){
+        return Bucket.builder()
                 .content(content)
                 .deadLine(deadLine)
                 .completed(false)
-                .bucket(bucket)
+                .member(member)
                 .build();
     }
 }

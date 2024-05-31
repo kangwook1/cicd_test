@@ -22,6 +22,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final com.appcenter.practice.common.QBaseEntity _super = new com.appcenter.practice.common.QBaseEntity(this);
 
+    public final ListPath<Bucket, QBucket> bucketList = this.<Bucket, QBucket>createList("bucketList", Bucket.class, QBucket.class, PathInits.DIRECT2);
+
     public final ListPath<Comment, QComment> commentList = this.<Comment, QComment>createList("commentList", Comment.class, QComment.class, PathInits.DIRECT2);
 
     //inherited
@@ -39,8 +41,6 @@ public class QMember extends EntityPathBase<Member> {
     public final StringPath password = createString("password");
 
     public final EnumPath<Role> role = createEnum("role", Role.class);
-
-    public final ListPath<Todo, QTodo> todoList = this.<Todo, QTodo>createList("todoList", Todo.class, QTodo.class, PathInits.DIRECT2);
 
     public QMember(String variable) {
         super(Member.class, forVariable(variable));

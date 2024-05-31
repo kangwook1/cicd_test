@@ -27,10 +27,10 @@ public class TodoRes {
     @Schema(title = "멤버 아이디",description = "투두를 만든 사람의 멤버 아이디", example = "1")
     private final Long memberId;
 
-    @Schema(title = "생성 시간",description = "댓글 생성 시간", example = "2024-05-26T14:25:07")
+    @Schema(title = "생성 시간",description = "투두 생성 시간", example = "2024-05-26T14:25:07")
     private final LocalDateTime createdTime;
 
-    @Schema(title = "수정 시간",description = "댓글 수정 시간", example = "2024-05-26T14:25:09")
+    @Schema(title = "수정 시간",description = "투두 수정 시간", example = "2024-05-26T14:25:09")
     private final LocalDateTime modifiedTime;
 
     @Builder
@@ -50,7 +50,7 @@ public class TodoRes {
                 .content(todo.getContent())
                 .deadLine(todo.getDeadLine())
                 .completed(todo.getCompleted())
-                .memberId(todo.getMember().getId())
+
                 .createdTime(todo.getCreatedDate())
                 .modifiedTime(todo.getModifiedDate())
                 .build();

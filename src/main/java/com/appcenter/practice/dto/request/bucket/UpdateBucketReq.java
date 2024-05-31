@@ -1,4 +1,4 @@
-package com.appcenter.practice.dto.request.todo;
+package com.appcenter.practice.dto.request.bucket;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -6,9 +6,9 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 
-@Schema(description = "투두 수정 요청 DTO")
+@Schema(description = "버킷 수정 요청 DTO")
 @Getter
-public class UpdateTodoReq {
+public class UpdateBucketReq {
 
     @Schema(title = "내용",description = "필수 입력",
             example = "오픽하기")

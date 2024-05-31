@@ -37,7 +37,7 @@ public class Member extends BaseEntity implements UserDetails {
     private Role role;
 
     @OneToMany(mappedBy = "member",cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private List<Todo> todoList =new ArrayList<>();
+    private List<Bucket> bucketList =new ArrayList<>();
 
     @OneToMany(mappedBy = "member",cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Comment> commentList =new ArrayList<>();

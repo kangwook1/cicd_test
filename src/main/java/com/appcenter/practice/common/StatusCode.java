@@ -16,6 +16,12 @@ public enum StatusCode {
     MEMBER_UPDATE(OK,"멤버 수정 완료"),
     MEMBER_DELETE(OK,"회원탈퇴 완료"),
     MEMBER_LOGIN(OK,"로그인 완료"),
+    // BucketList
+    BUCKET_CREATE(CREATED,"버킷 생성 완료"),
+    BUCKET_LIST_FOUND(OK,"버킷 목록 조회 완료"),
+    BUCKET_UPDATE(OK,"버킷 수정 완료"),
+    BUCKET_COMPLETE(OK,"버킷 상태 토글 완료"),
+    BUCKET_DELETE(OK,"버킷 삭제 완료"),
     // TodoList
     TODO_CREATE(CREATED,"할 일 생성 완료"),
     TODO_LIST_FOUND(OK,"할 일 목록 조회 완료"),
@@ -41,6 +47,7 @@ public enum StatusCode {
 
     /* 404 NOT_FOUNT : 존재하지 않는 리소스 */
     MEMBER_NOT_EXIST(NOT_FOUND,"존재하지 않는 멤버입니다."),
+    BUCKET_NOT_EXIST(NOT_FOUND,"존재하지 않는 버킷입니다."),
     TODO_NOT_EXIST(NOT_FOUND,"존재하지 않는 할 일입니다."),
     COMMENT_NOT_EXIST(NOT_FOUND,"존재하지 않는 댓글입니다."),
 

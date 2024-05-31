@@ -28,8 +28,8 @@ public class CommentService {
 
 
     public List<CommentRes> getCommentList(Long todoId){
-        Todo todo=findByTodoId(todoId);
-        List<CommentRes> commentResList=todo.getCommentList().stream()
+        Todo todo =findByTodoId(todoId);
+        List<CommentRes> commentResList= todo.getCommentList().stream()
                 .map(CommentRes::from)
                 .toList();
         for(CommentRes commentRes : commentResList){
@@ -47,8 +47,8 @@ public class CommentService {
     @Transactional
     public CommentRes saveComment(Long memberId, Long todoId, AddCommentReq reqDto){
         Member member=findByMemberId(memberId);
-        Todo todo= findByTodoId(todoId);
-        Comment comment=commentRepository.save(reqDto.toEntity(member,todo));
+        Todo todo = findByTodoId(todoId);
+        Comment comment=commentRepository.save(reqDto.toEntity(member, todo));
         return CommentRes.from(comment);
     }
 

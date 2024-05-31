@@ -17,7 +17,7 @@ public class AddCommentReq {
     @NotBlank(message = "content는 필수 입력값입니다.")
     private String content;
 
-    public Comment toEntity(Member member,Todo todo){
+    public Comment toEntity(Member member, Todo todo){
         return Comment.builder()
                 .content(content)
                 .deleted(false)

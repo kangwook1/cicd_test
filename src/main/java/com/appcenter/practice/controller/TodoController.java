@@ -20,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 import static com.appcenter.practice.common.StatusCode.*;
@@ -34,29 +33,20 @@ public class TodoController {
     private final TodoService todoService;
 
 
-    @Operation(summary = "나의 투두 리스트 조회", description ="사용자의 투두 리스트를 조회합니다.")
+    @Operation(summary = "투두 리스트 조회", description ="해당 버킷의 투두 리스트를 조회합니다.",
+            parameters = @Parameter(name = "bucketId", description = "버킷 Id", example = "1"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "투두 리스트 조회 성공",content= @Content(schema = @Schema(implementation = CommonResponseTodoRes.class))),
             @ApiResponse(responseCode = "401", description = "유효하지 않은 jwt 토큰입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 멤버입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping
-    public ResponseEntity<CommonResponse<List<TodoRes>>> getMyTodoList(Principal principal){
-        Long memberId=Long.parseLong(principal.getName());
-        return ResponseEntity.ok(CommonResponse.from(TODO_LIST_FOUND.getMessage(), todoService.getMyTodoList(memberId)));
+    public ResponseEntity<CommonResponse<List<TodoRes>>> getMyTodoList(@RequestParam Long bucketId){
+        return ResponseEntity.ok(CommonResponse.from(TODO_LIST_FOUND.getMessage(), todoService.getTodoList(bucketId)));
     }
 
-    @Operation(summary = "닉네임으로 투두 리스트 조회", description ="닉네임을 통해 회원의 투두 리스트를 조회합니다.",
-            parameters = @Parameter(name = "nickname", description = "닉네임", example = "냄B뚜껑"))
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "투두 리스트 조회 성공",content= @Content(schema = @Schema(implementation = CommonResponseTodoRes.class))),
-            @ApiResponse(responseCode = "401", description = "유효하지 않은 jwt 토큰입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "404", description = "존재하지 않는 멤버입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
-    @GetMapping("/by-nickname")
-    public ResponseEntity<CommonResponse<List<TodoRes>>> getOtherUserTodoList(@RequestParam String nickname){
-        return ResponseEntity.ok(CommonResponse.from(TODO_LIST_FOUND.getMessage(), todoService.getOtherUserTodoList(nickname)));
-    }
 
-    @Operation(summary = "투두 생성", description = "투두를 생성합니다.")
+    @Operation(summary = "투두 생성", description = "투두를 생성합니다.",
+            parameters = @Parameter(name = "bucketId", description = "버킷 Id", example = "1"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "투두 생성 성공",content= @Content(schema = @Schema(implementation = CommonResponseTodoRes.class))),
             @ApiResponse(responseCode = "400", description = "유효하지 않은 입력입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -64,11 +54,10 @@ public class TodoController {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 jwt토큰입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 멤버입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping
-    public ResponseEntity<CommonResponse<TodoRes>> addTodo(Principal principal,@RequestBody @Valid AddTodoReq reqDto){
-        Long memberId=Long.parseLong(principal.getName());
+    public ResponseEntity<CommonResponse<TodoRes>> addTodo(@RequestParam Long bucketId, @RequestBody @Valid AddTodoReq reqDto){
         return ResponseEntity
                 .status(TODO_CREATE.getStatus())
-                .body(CommonResponse.from(TODO_CREATE.getMessage(),todoService.saveTodo(memberId,reqDto)));
+                .body(CommonResponse.from(TODO_CREATE.getMessage(), todoService.saveTodo(bucketId,reqDto)));
     }
 
     @Operation(summary = "투두 수정", description = "투두를 수정합니다.",
@@ -82,7 +71,7 @@ public class TodoController {
     @PatchMapping(value = "/{todoId}")
     public ResponseEntity<CommonResponse<TodoRes>> updateTodo(@PathVariable Long todoId, @RequestBody @Valid UpdateTodoReq reqDto){
         return ResponseEntity
-                .ok(CommonResponse.from(TODO_UPDATE.getMessage(),todoService.updateTodo(todoId,reqDto)));
+                .ok(CommonResponse.from(TODO_UPDATE.getMessage(), todoService.updateTodo(todoId,reqDto)));
     }
 
     @Operation(summary = "투두 완료", description = "투두의 완료 상태가 토글됩니다.",
@@ -94,7 +83,7 @@ public class TodoController {
     @PatchMapping(value = "/{todoId}/complete")
     public ResponseEntity<CommonResponse<TodoRes>> completeTodo(@PathVariable Long todoId){
         return ResponseEntity
-                .ok(CommonResponse.from(TODO_COMPLETE.getMessage(),todoService.completeTodo(todoId)));
+                .ok(CommonResponse.from(TODO_COMPLETE.getMessage(), todoService.completeTodo(todoId)));
     }
 
     @Operation(summary = "투두 삭제", description = "투두를 삭제합니다",

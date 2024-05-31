@@ -11,22 +11,18 @@ import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
- * QTodo is a Querydsl query type for Todo
+ * QBucket is a Querydsl query type for Bucket
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QTodo extends EntityPathBase<Todo> {
+public class QBucket extends EntityPathBase<Bucket> {
 
-    private static final long serialVersionUID = 2009292386L;
+    private static final long serialVersionUID = 1979853062L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
-    public static final QTodo todo = new QTodo("todo");
+    public static final QBucket bucket = new QBucket("bucket");
 
     public final com.appcenter.practice.common.QBaseEntity _super = new com.appcenter.practice.common.QBaseEntity(this);
-
-    public final QBucket bucket;
-
-    public final ListPath<Comment, QComment> commentList = this.<Comment, QComment>createList("commentList", Comment.class, QComment.class, PathInits.DIRECT2);
 
     public final BooleanPath completed = createBoolean("completed");
 
@@ -39,28 +35,32 @@ public class QTodo extends EntityPathBase<Todo> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final QMember member;
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
 
-    public QTodo(String variable) {
-        this(Todo.class, forVariable(variable), INITS);
+    public final ListPath<Todo, QTodo> todoList = this.<Todo, QTodo>createList("todoList", Todo.class, QTodo.class, PathInits.DIRECT2);
+
+    public QBucket(String variable) {
+        this(Bucket.class, forVariable(variable), INITS);
     }
 
-    public QTodo(Path<? extends Todo> path) {
+    public QBucket(Path<? extends Bucket> path) {
         this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
-    public QTodo(PathMetadata metadata) {
+    public QBucket(PathMetadata metadata) {
         this(metadata, PathInits.getFor(metadata, INITS));
     }
 
-    public QTodo(PathMetadata metadata, PathInits inits) {
-        this(Todo.class, metadata, inits);
+    public QBucket(PathMetadata metadata, PathInits inits) {
+        this(Bucket.class, metadata, inits);
     }
 
-    public QTodo(Class<? extends Todo> type, PathMetadata metadata, PathInits inits) {
+    public QBucket(Class<? extends Bucket> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.bucket = inits.isInitialized("bucket") ? new QBucket(forProperty("bucket"), inits.get("bucket")) : null;
+        this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
     }
 
 }

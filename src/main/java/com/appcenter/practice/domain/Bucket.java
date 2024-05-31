@@ -16,7 +16,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Todo extends BaseEntity {
+public class Bucket extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,18 +34,18 @@ public class Todo extends BaseEntity {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bucket_id",nullable = false)
-    private Bucket bucket;
+    @JoinColumn(name = "member_id",nullable = false)
+    private Member member;
 
-    @OneToMany(mappedBy = "todo",cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private List<Comment> commentList= new ArrayList<>();
+    @OneToMany(mappedBy = "bucket",cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<Todo> todoList= new ArrayList<>();
 
     @Builder
-    private Todo(String content,LocalDate deadLine, Boolean completed, Bucket bucket) {
+    private Bucket(String content, LocalDate deadLine, Boolean completed, Member member) {
         this.content = content;
         this.deadLine= deadLine;
         this.completed = completed;
-        this.bucket=bucket;
+        this.member = member;
     }
 
 
@@ -54,3 +54,4 @@ public class Todo extends BaseEntity {
         this.content= content;
     }
 }
+
