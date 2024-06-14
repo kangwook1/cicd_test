@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 import static com.appcenter.practice.common.StatusCode.*;
@@ -54,10 +55,11 @@ public class TodoController {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 jwt토큰입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 멤버입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping
-    public ResponseEntity<CommonResponse<TodoRes>> addTodo(@RequestParam Long bucketId, @RequestBody @Valid AddTodoReq reqDto){
+    public ResponseEntity<CommonResponse<TodoRes>> addTodo(Principal principal, @RequestParam Long bucketId, @RequestBody @Valid AddTodoReq reqDto){
+        Long memberId = Long.parseLong(principal.getName());
         return ResponseEntity
                 .status(TODO_CREATE.getStatus())
-                .body(CommonResponse.from(TODO_CREATE.getMessage(), todoService.saveTodo(bucketId,reqDto)));
+                .body(CommonResponse.from(TODO_CREATE.getMessage(), todoService.saveTodo(memberId,bucketId,reqDto)));
     }
 
     @Operation(summary = "투두 수정", description = "투두를 수정합니다.",
@@ -69,9 +71,10 @@ public class TodoController {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 jwt토큰입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 투두입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @PatchMapping(value = "/{todoId}")
-    public ResponseEntity<CommonResponse<TodoRes>> updateTodo(@PathVariable Long todoId, @RequestBody @Valid UpdateTodoReq reqDto){
+    public ResponseEntity<CommonResponse<TodoRes>> updateTodo(Principal principal,@PathVariable Long todoId, @RequestBody @Valid UpdateTodoReq reqDto){
+        Long memberId = Long.parseLong(principal.getName());
         return ResponseEntity
-                .ok(CommonResponse.from(TODO_UPDATE.getMessage(), todoService.updateTodo(todoId,reqDto)));
+                .ok(CommonResponse.from(TODO_UPDATE.getMessage(), todoService.updateTodo(memberId,todoId,reqDto)));
     }
 
     @Operation(summary = "투두 완료", description = "투두의 완료 상태가 토글됩니다.",
@@ -81,9 +84,10 @@ public class TodoController {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 jwt토큰입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 투두입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @PatchMapping(value = "/{todoId}/complete")
-    public ResponseEntity<CommonResponse<TodoRes>> completeTodo(@PathVariable Long todoId){
+    public ResponseEntity<CommonResponse<TodoRes>> completeTodo(Principal principal,@PathVariable Long todoId){
+        Long memberId = Long.parseLong(principal.getName());
         return ResponseEntity
-                .ok(CommonResponse.from(TODO_COMPLETE.getMessage(), todoService.completeTodo(todoId)));
+                .ok(CommonResponse.from(TODO_COMPLETE.getMessage(), todoService.completeTodo(memberId,todoId)));
     }
 
     @Operation(summary = "투두 삭제", description = "투두를 삭제합니다",
@@ -93,8 +97,9 @@ public class TodoController {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 jwt토큰입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 투두입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @DeleteMapping(value = "/{todoId}")
-    public ResponseEntity<CommonResponse<Object>> deleteTodo(@PathVariable Long todoId){
-        todoService.deleteTodo(todoId);
+    public ResponseEntity<CommonResponse<Object>> deleteTodo(Principal principal,@PathVariable Long todoId){
+        Long memberId = Long.parseLong(principal.getName());
+        todoService.deleteTodo(memberId,todoId);
         return ResponseEntity
                 .ok(CommonResponse.from(TODO_DELETE.getMessage()));
     }

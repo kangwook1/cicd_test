@@ -78,9 +78,10 @@ public class BucketController {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 jwt토큰입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 버킷입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @PatchMapping(value = "/{bucketId}")
-    public ResponseEntity<CommonResponse<BucketRes>> updateBucket(@PathVariable Long bucketId, @RequestBody @Valid UpdateBucketReq reqDto) {
+    public ResponseEntity<CommonResponse<BucketRes>> updateBucket(Principal principal,@PathVariable Long bucketId, @RequestBody @Valid UpdateBucketReq reqDto) {
+        Long memberId = Long.parseLong(principal.getName());
         return ResponseEntity
-                .ok(CommonResponse.from(BUCKET_UPDATE.getMessage(), bucketService.updateBucket(bucketId, reqDto)));
+                .ok(CommonResponse.from(BUCKET_UPDATE.getMessage(), bucketService.updateBucket(memberId,bucketId, reqDto)));
     }
 
     @Operation(summary = "버킷 완료", description = "버킷의 완료 상태가 토글됩니다.",
@@ -90,9 +91,10 @@ public class BucketController {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 jwt토큰입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 버킷입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @PatchMapping(value = "/{bucketId}/complete")
-    public ResponseEntity<CommonResponse<BucketRes>> completeBucket(@PathVariable Long bucketId) {
+    public ResponseEntity<CommonResponse<BucketRes>> completeBucket(Principal principal,@PathVariable Long bucketId) {
+        Long memberId = Long.parseLong(principal.getName());
         return ResponseEntity
-                .ok(CommonResponse.from(BUCKET_COMPLETE.getMessage(), bucketService.completeBucket(bucketId)));
+                .ok(CommonResponse.from(BUCKET_COMPLETE.getMessage(), bucketService.completeBucket(memberId,bucketId)));
     }
 
     @Operation(summary = "버킷 삭제", description = "버킷을 삭제합니다",
@@ -102,8 +104,9 @@ public class BucketController {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 jwt토큰입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 버킷입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @DeleteMapping(value = "/{bucketId}")
-    public ResponseEntity<CommonResponse<Object>> deleteBucket(@PathVariable Long bucketId) {
-        bucketService.deleteBucket(bucketId);
+    public ResponseEntity<CommonResponse<Object>> deleteBucket(Principal principal,@PathVariable Long bucketId) {
+        Long memberId = Long.parseLong(principal.getName());
+        bucketService.deleteBucket(memberId,bucketId);
         return ResponseEntity
                 .ok(CommonResponse.from(TODO_DELETE.getMessage()));
     }

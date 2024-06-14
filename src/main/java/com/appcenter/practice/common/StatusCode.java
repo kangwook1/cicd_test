@@ -42,8 +42,10 @@ public enum StatusCode {
 
     /* 401 UNAUTHORIZED : 비인증 사용자 */
     ACCESS_TOKEN_INVALID(UNAUTHORIZED,"jwt 토큰이 유효하지 않습니다."),
+    UNAUTHORIZED_MEMBER(UNAUTHORIZED,"인증되지 않은 멤버입니다. 로그인 해주세요."),
 
     /* 403 FORBIDDEN : 권한 없음 */
+    AUTHORIZATION_INVALID(FORBIDDEN,"권한이 없습니다."),
 
     /* 404 NOT_FOUNT : 존재하지 않는 리소스 */
     MEMBER_NOT_EXIST(NOT_FOUND,"존재하지 않는 멤버입니다."),
@@ -52,7 +54,8 @@ public enum StatusCode {
     COMMENT_NOT_EXIST(NOT_FOUND,"존재하지 않는 댓글입니다."),
 
     /* 409 CONFLICT : 리소스 충돌 */
-    EMAIL_DUPLICATED(CONFLICT,"이미 존재하는 이메일입니다.");
+    EMAIL_DUPLICATED(CONFLICT,"이미 존재하는 이메일입니다."),
+    NICKNAME_DUPLICATED(CONFLICT,"이미 존재하는 닉네임입니다.");
 
 
     private final HttpStatus status;

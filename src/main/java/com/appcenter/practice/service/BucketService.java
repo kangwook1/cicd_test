@@ -15,8 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.appcenter.practice.common.StatusCode.BUCKET_NOT_EXIST;
-import static com.appcenter.practice.common.StatusCode.MEMBER_NOT_EXIST;
+import static com.appcenter.practice.common.StatusCode.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -47,29 +46,40 @@ public class BucketService {
     public BucketRes saveBucket(Long memberId, AddBucketReq reqDto){
         Member member=findByMemberId(memberId);
         Bucket bucket = bucketRepository.save(reqDto.toEntity(member));
-        return BucketRes.from(bucket);
+        if(member.equals(bucket.getMember()))
+            return BucketRes.from(bucket);
+        else throw new CustomException(AUTHORIZATION_INVALID);
     }
 
     @Transactional
-    public BucketRes updateBucket(Long BucketId, UpdateBucketReq reqDto){
-        Bucket bucket = findByBucketId(BucketId);
+    public BucketRes updateBucket(Long memberId, Long bucketId, UpdateBucketReq reqDto){
+        Member member=findByMemberId(memberId);
+        Bucket bucket = findByBucketId(bucketId);
         bucket.changeContent(reqDto.getContent());
-
-        return BucketRes.from(bucket);
+        if(member.equals(bucket.getMember()))
+            return BucketRes.from(bucket);
+        else throw new CustomException(AUTHORIZATION_INVALID);
     }
 
     @Transactional
-    public BucketRes completeBucket(Long bucketId){
+    public BucketRes completeBucket(Long memberId,Long bucketId){
+        Member member=findByMemberId(memberId);
         Bucket bucket = findByBucketId(bucketId);
         bucket.changeCompleted();
 
-        return BucketRes.from(bucket);
+        if(member.equals(bucket.getMember()))
+            return BucketRes.from(bucket);
+        else throw new CustomException(AUTHORIZATION_INVALID);
     }
 
     @Transactional
-    public void deleteBucket(Long bucketId){
+    public void deleteBucket(Long memberId, Long bucketId){
+        Member member=findByMemberId(memberId);
         Bucket bucket = findByBucketId(bucketId);
-        bucketRepository.deleteById(bucket.getId());
+
+        if(member.equals(bucket.getMember()))
+            bucketRepository.deleteById(bucket.getId());
+        else throw new CustomException(AUTHORIZATION_INVALID);
     }
 
     private Bucket findByBucketId(Long bucketId) {

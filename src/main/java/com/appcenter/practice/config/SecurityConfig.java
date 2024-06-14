@@ -1,6 +1,7 @@
 package com.appcenter.practice.config;
 
 import com.appcenter.practice.exception.JwtExceptionFilter;
+import com.appcenter.practice.security.CustomAuthenticationEntryPoint;
 import com.appcenter.practice.security.JwtAuthenticationFilter;
 import com.appcenter.practice.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Value("${security.public-endpoints}")
     private String[] publicEndpoints;
@@ -54,8 +56,8 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class);
-
+                .addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class)
+                .exceptionHandling(e-> e.authenticationEntryPoint(customAuthenticationEntryPoint));
 
 
 

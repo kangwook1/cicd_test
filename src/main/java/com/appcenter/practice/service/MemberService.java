@@ -7,7 +7,6 @@ import com.appcenter.practice.dto.request.member.SignupMemberReq;
 import com.appcenter.practice.dto.request.member.UpdateMemberReq;
 import com.appcenter.practice.dto.response.member.MemberRes;
 import com.appcenter.practice.exception.CustomException;
-import com.appcenter.practice.common.StatusCode;
 import com.appcenter.practice.repository.MemberRepository;
 import com.appcenter.practice.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +33,7 @@ public class MemberService {
     @Transactional
     public void signup(SignupMemberReq reqDto){
         checkEmailDuplicated(reqDto.getEmail());
+        checkNicknameDuplicated(reqDto.getNickname());
         Member member=reqDto.toEntity(passwordEncoder);
         memberRepository.save(member);
     }
@@ -65,7 +65,12 @@ public class MemberService {
 
     private void checkEmailDuplicated(String email){
         if(memberRepository.existsByEmail(email))
-            throw new CustomException(StatusCode.EMAIL_DUPLICATED);
+            throw new CustomException(EMAIL_DUPLICATED);
+    }
+
+    private void checkNicknameDuplicated(String nickname){
+        if(memberRepository.existsByNickname(nickname))
+            throw new CustomException(NICKNAME_DUPLICATED);
     }
 
     private Member findByMemberId(Long memberId){

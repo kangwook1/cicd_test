@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class UpdateBucketReq {
 
     @Schema(title = "내용",description = "필수 입력",
-            example = "오픽하기")
+            example = "유학가기")
     @NotBlank(message = "content는 필수 입력값입니다.")
     String content;
 

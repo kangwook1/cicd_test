@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.appcenter.practice.common.StatusCode.*;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -53,17 +55,26 @@ public class CommentService {
     }
 
     @Transactional
-    public CommentRes updateComment(Long commentId, UpdateCommentReq reqDto){
+    public CommentRes updateComment(Long memberId, Long commentId, UpdateCommentReq reqDto){
+        Member member=findByMemberId(memberId);
         Comment comment= findByCommentId(commentId);
-        comment.changeContent(reqDto.getContent());
+        if(member.equals(comment.getMember())){
+            comment.changeContent(reqDto.getContent());
+            return CommentRes.from(comment);
+        }
+        else throw new CustomException(AUTHORIZATION_INVALID);
 
-        return CommentRes.from(comment);
+
+
     }
 
     @Transactional
-    public void deleteComment(Long commentId){
+    public void deleteComment(Long memberId,Long commentId){
+        Member member=findByMemberId(memberId);
         Comment comment=findByCommentId(commentId);
-        comment.changeDeleted(true);
+        if(member.equals(comment))
+            comment.changeDeleted(true);
+        else throw new CustomException(AUTHORIZATION_INVALID);
     }
 
     private Comment findByCommentId(Long id){

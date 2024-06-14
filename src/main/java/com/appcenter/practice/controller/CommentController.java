@@ -68,9 +68,10 @@ public class CommentController {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 jwt 토큰입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 댓글입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @PatchMapping(value = "/{commentId}")
-    public ResponseEntity<CommonResponse<CommentRes>> updateComment(@PathVariable Long commentId, @RequestBody @Valid UpdateCommentReq reqDto){
+    public ResponseEntity<CommonResponse<CommentRes>> updateComment(Principal principal,@PathVariable Long commentId, @RequestBody @Valid UpdateCommentReq reqDto){
+        Long memberId = Long.parseLong(principal.getName());
         return ResponseEntity
-                .ok(CommonResponse.from(COMMENT_UPDATE.getMessage(), commentService.updateComment(commentId,reqDto)));
+                .ok(CommonResponse.from(COMMENT_UPDATE.getMessage(), commentService.updateComment(memberId,commentId,reqDto)));
     }
 
     @Operation(summary = "댓글 삭제", description = "댓글은 soft delete방식으로 삭제가 되므로, 실제로 삭제되진 않고 댓글의 필드 중에서 deleted=true가 됩니다.",
@@ -80,8 +81,9 @@ public class CommentController {
             @ApiResponse(responseCode = "401", description = "유효하지 않은 jwt 토큰입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 댓글입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @DeleteMapping(value = "/{commentId}")
-    public ResponseEntity<CommonResponse<Object>> deleteComment(@PathVariable Long commentId){
-        commentService.deleteComment(commentId);
+    public ResponseEntity<CommonResponse<Object>> deleteComment(Principal principal,@PathVariable Long commentId){
+        Long memberId = Long.parseLong(principal.getName());
+        commentService.deleteComment(memberId,commentId);
         return ResponseEntity
                 .ok(CommonResponse.from(COMMENT_DELETE.getMessage()));
     }
