@@ -33,6 +33,9 @@ public class Member extends BaseEntity implements UserDetails {
     private String nickname;
 
     @Column(nullable = false)
+    private String profile;
+
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
 
