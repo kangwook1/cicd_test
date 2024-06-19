@@ -50,7 +50,7 @@ public class TodoRes {
                 .content(todo.getContent())
                 .deadLine(todo.getDeadLine())
                 .completed(todo.getCompleted())
-
+                .memberId(todo.getBucket().getMember().getId())
                 .createdTime(todo.getCreatedDate())
                 .modifiedTime(todo.getModifiedDate())
                 .build();

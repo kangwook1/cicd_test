@@ -14,6 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static com.appcenter.practice.common.StatusCode.*;
 
 @Service
@@ -28,6 +31,12 @@ public class MemberService {
     public MemberRes getMember(Long memberId){
         Member member=findByMemberId(memberId);
         return MemberRes.from(member);
+    }
+
+    public List<MemberRes> getRandomMemberListExcludingMyself(Long memberId, int limit){
+        return memberRepository.findRandomMemberListExcludingSelf(memberId,limit).stream()
+                .map(MemberRes::from)
+                .collect(Collectors.toList());
     }
 
     @Transactional

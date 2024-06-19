@@ -10,7 +10,7 @@ import lombok.Getter;
 public class MemberRes {
 
     @Schema(title = "멤버 Id", description = "멤버 Id", example = "1")
-    private final Long id;
+    private final Long memberId;
 
     @Schema(title = "이메일", description = "이메일", example = "example@naver.com")
     private final String email;
@@ -19,15 +19,15 @@ public class MemberRes {
     private final String nickname;
 
     @Builder
-    public MemberRes(Long id, String email, String nickname) {
-        this.id = id;
+    public MemberRes(Long memberId, String email, String nickname) {
+        this.memberId = memberId;
         this.email = email;
         this.nickname = nickname;
     }
 
     public static MemberRes from(Member member){
         return MemberRes.builder()
-                .id(member.getId())
+                .memberId(member.getId())
                 .email(member.getEmail())
                 .nickname(member.getNickname())
                 .build();
