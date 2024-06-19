@@ -17,8 +17,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 
@@ -102,5 +104,31 @@ public class MemberController {
                 .body(CommonResponse.from(MEMBER_DELETE.getMessage()));
     }
 
+    @Operation(summary = "멤버 프로필 업로드", description ="멤버 프로필을 업로드합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "프로필 업로드 성공",content= @Content(schema = @Schema(implementation = CommonResponseMemberRes.class))),
+            @ApiResponse(responseCode = "401", description = "유효하지 않은 jwt토큰입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 멤버입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
+
+    @PostMapping(value = "/profile",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<CommonResponse<MemberRes>> uploadProfile(Principal principal, @RequestParam MultipartFile file){
+        Long memberId=Long.parseLong(principal.getName());
+        return ResponseEntity.ok()
+                .body(CommonResponse.from(MEMBER_PROFILE_UPLOAD.getMessage(),memberService.uploadProfile(memberId,file)));
+    }
+
+    @Operation(summary = "멤버 프로필 삭제", description ="멤버 프로필을 삭제합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "프로필 삭제 성공",content= @Content(schema = @Schema(implementation = CommonResponse.class))),
+            @ApiResponse(responseCode = "401", description = "유효하지 않은 jwt토큰입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 멤버입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
+    @DeleteMapping(value = "/profile")
+    public ResponseEntity<Object> deleteProfile(Principal principal){
+        Long memberId=Long.parseLong(principal.getName());
+        memberService.deleteProfile(memberId);
+        return ResponseEntity.ok()
+                .body(CommonResponse.from(MEMBER_PROFILE_DELETE.getMessage()));
+
+    }
 
 }

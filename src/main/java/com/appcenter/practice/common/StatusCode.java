@@ -15,6 +15,8 @@ public enum StatusCode {
     MEMBER_FOUND(OK,"멤버 조회 완료"),
     MEMBER_UPDATE(OK,"멤버 수정 완료"),
     MEMBER_DELETE(OK,"회원탈퇴 완료"),
+    MEMBER_PROFILE_UPLOAD(OK,"멤버 프로필 이미지 업로드 완료"),
+    MEMBER_PROFILE_DELETE(OK,"멤버 프로필 이미지 삭제 완료"),
     MEMBER_LOGIN(OK,"로그인 완료"),
     // BucketList
     BUCKET_CREATE(CREATED,"버킷 생성 완료"),
@@ -39,6 +41,7 @@ public enum StatusCode {
     PASSWORD_INVALID(BAD_REQUEST,"비밀번호가 틀렸습니다."),
     INPUT_VALUE_INVALID(BAD_REQUEST,"유효하지 않은 입력입니다."),
     DATE_FORMAT_INVALID(BAD_REQUEST,"유효하지 않은 날짜 형식입니다."),
+    PROFILE_INVALID(BAD_REQUEST,"유효하지 않은 프로필 이미지입니다."),
 
     /* 401 UNAUTHORIZED : 비인증 사용자 */
     ACCESS_TOKEN_INVALID(UNAUTHORIZED,"jwt 토큰이 유효하지 않습니다."),

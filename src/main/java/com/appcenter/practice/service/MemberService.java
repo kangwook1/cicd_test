@@ -10,9 +10,14 @@ import com.appcenter.practice.exception.CustomException;
 import com.appcenter.practice.repository.MemberRepository;
 import com.appcenter.practice.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.util.UUID;
 
 import static com.appcenter.practice.common.StatusCode.*;
 
@@ -24,6 +29,11 @@ public class MemberService {
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
 
+    @Value("${profile.default.image}")
+    private String defaultProfile;
+
+    @Value("${profile.upload.path}")
+    private String uploadFolder;
 
     public MemberRes getMember(Long memberId){
         Member member=findByMemberId(memberId);
@@ -35,6 +45,7 @@ public class MemberService {
         checkEmailDuplicated(reqDto.getEmail());
         checkNicknameDuplicated(reqDto.getNickname());
         Member member=reqDto.toEntity(passwordEncoder);
+        member.uploadProfile(defaultProfile);
         memberRepository.save(member);
     }
 
@@ -61,6 +72,37 @@ public class MemberService {
     public void deleteMember(Long memberId){
         Member member=findByMemberId(memberId);
         memberRepository.deleteById(member.getId());
+    }
+
+    @Transactional
+    public MemberRes uploadProfile(Long memberId, MultipartFile file){
+        Member member= findByMemberId(memberId);
+        UUID uuid = UUID.randomUUID();
+        String imageFileName = uuid + "_" + file.getOriginalFilename();
+        File uploadFile = new File(uploadFolder + imageFileName);
+
+        try {
+           file.transferTo(uploadFile);
+           if(!member.getProfile().equals(defaultProfile)){
+               File previousFile=new File(uploadFolder + member.getProfile());
+               previousFile.delete();
+           }
+           member.uploadProfile(imageFileName);
+        } catch(Exception e) {
+            throw new CustomException(PROFILE_INVALID);
+        }
+        return MemberRes.from(member);
+    }
+
+    @Transactional
+    public void deleteProfile(Long memberId){
+        Member member=findByMemberId(memberId);
+        if(!member.getProfile().equals(defaultProfile)){
+            File file=new File(uploadFolder + member.getProfile());
+            file.delete();
+            member.uploadProfile(defaultProfile);
+        }
+
     }
 
     private void checkEmailDuplicated(String email){

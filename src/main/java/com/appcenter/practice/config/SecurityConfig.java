@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -50,7 +51,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorizeRequest -> authorizeRequest
                         .requestMatchers(publicEndpoints).permitAll()
-                        .requestMatchers(postEndpoints).permitAll()
+                        .requestMatchers(HttpMethod.POST,postEndpoints).permitAll()
                         //스프링 시큐리티는 자동으로 Role_접두어를 붙여준다.
                         .requestMatchers("/**").hasRole("USER")
                         .anyRequest().authenticated())
