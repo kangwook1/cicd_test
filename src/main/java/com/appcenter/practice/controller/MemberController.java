@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
+import java.util.List;
 
 import static com.appcenter.practice.common.StatusCode.*;
 
@@ -75,6 +76,19 @@ public class MemberController {
         Long memberId=Long.parseLong(principal.getName());
         return ResponseEntity.ok()
                 .body(CommonResponse.from(MEMBER_FOUND.getMessage(),memberService.getMember(memberId)));
+    }
+
+    @Operation(summary = "랜덤 멤버 조회", description ="자기 자신을 제외한 랜덤 멤버를 조회합니다.<br>"+
+            "limit에 값이 없으면 기본적으로 3명을 조회하고 실제 db에 있는 멤버 수가 limit보다 작으면 전부 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "랜덤 멤버리스트 조회 성공",content= @Content(schema = @Schema(implementation = CommonResponseMemberRes.class))),
+            @ApiResponse(responseCode = "401", description = "유효하지 않은 jwt토큰입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 멤버입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
+    @GetMapping(value = "/random")
+    public ResponseEntity<CommonResponse<List<MemberRes>>> getRandomMemberListExcludingMyself(Principal principal, @RequestParam(defaultValue = "3") int limit){
+        Long memberId=Long.parseLong(principal.getName());
+        return ResponseEntity.ok()
+                .body(CommonResponse.from(MEMBER_FOUND.getMessage(),memberService.getRandomMemberListExcludingMyself(memberId,limit)));
     }
 
     @Operation(summary = "멤버 수정", description ="해당 멤버를 수정합니다.")

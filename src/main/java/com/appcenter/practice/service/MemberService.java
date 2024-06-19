@@ -19,6 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.util.UUID;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static com.appcenter.practice.common.StatusCode.*;
 
 @Service
@@ -38,6 +41,12 @@ public class MemberService {
     public MemberRes getMember(Long memberId){
         Member member=findByMemberId(memberId);
         return MemberRes.from(member);
+    }
+
+    public List<MemberRes> getRandomMemberListExcludingMyself(Long memberId, int limit){
+        return memberRepository.findRandomMemberListExcludingSelf(memberId,limit).stream()
+                .map(MemberRes::from)
+                .collect(Collectors.toList());
     }
 
     @Transactional

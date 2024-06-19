@@ -72,7 +72,7 @@ public class CommentService {
     public void deleteComment(Long memberId,Long commentId){
         Member member=findByMemberId(memberId);
         Comment comment=findByCommentId(commentId);
-        if(member.equals(comment))
+        if(member.equals(comment.getMember()))
             comment.changeDeleted(true);
         else throw new CustomException(AUTHORIZATION_INVALID);
     }
