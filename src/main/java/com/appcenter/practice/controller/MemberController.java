@@ -9,6 +9,7 @@ import com.appcenter.practice.dto.response.member.MemberRes;
 import com.appcenter.practice.service.MemberService;
 import com.appcenter.practice.swagger.CommonResponseMemberRes;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -74,6 +75,18 @@ public class MemberController {
         Long memberId=Long.parseLong(principal.getName());
         return ResponseEntity.ok()
                 .body(CommonResponse.from(MEMBER_FOUND.getMessage(),memberService.getMember(memberId)));
+    }
+
+    @Operation(summary = "닉네임으로 멤버 조회", description ="닉네임으로 해당 멤버를 조회합니다.",
+            parameters = @Parameter(name = "nickname", description = "닉네임", example = "냄B뚜껑"))
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "멤버 조회 성공",content= @Content(schema = @Schema(implementation = CommonResponseMemberRes.class))),
+            @ApiResponse(responseCode = "401", description = "유효하지 않은 jwt토큰입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 멤버입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class)))})
+    @GetMapping(value = "by-nickname")
+    public ResponseEntity<CommonResponse<MemberRes>> getMemberByNickname(@RequestParam String nickname){
+        return ResponseEntity.ok()
+                .body(CommonResponse.from(MEMBER_FOUND.getMessage(),memberService.getMemberByNickname(nickname)));
     }
 
     @Operation(summary = "랜덤 멤버 조회", description ="자기 자신을 제외한 랜덤 멤버를 조회합니다.<br>"+

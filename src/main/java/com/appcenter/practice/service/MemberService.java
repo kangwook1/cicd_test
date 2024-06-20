@@ -33,6 +33,11 @@ public class MemberService {
         return MemberRes.from(member);
     }
 
+    public MemberRes getMemberByNickname(String nickname){
+        Member member=memberRepository.findByNickname(nickname)
+                .orElseThrow(()-> new CustomException(MEMBER_NOT_EXIST));
+        return MemberRes.from(member);
+    }
     public List<MemberRes> getRandomMemberListExcludingMyself(Long memberId, int limit){
         return memberRepository.findRandomMemberListExcludingSelf(memberId,limit).stream()
                 .map(MemberRes::from)
