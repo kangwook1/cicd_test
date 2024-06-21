@@ -134,7 +134,7 @@ public class MemberController {
 
     @Operation(summary = "멤버 프로필 업로드", description ="멤버 프로필을 업로드합니다.<br>"+
     "프로필 이미지는 경로로 응답을 줍니다.<br>"+
-    "이미지는 http://na2ru2.me:5152/prifile/멤버 profile 를 fetch하면 얻을 수 있습니다.")
+    "이미지는 http://na2ru2.me:5152/profile/경로를 fetch하면 얻을 수 있습니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "프로필 업로드 성공",content= @Content(schema = @Schema(implementation = CommonResponseMemberRes.class))),
             @ApiResponse(responseCode = "401", description = "유효하지 않은 jwt토큰입니다.",content= @Content(schema = @Schema(implementation = ErrorResponse.class))),

@@ -16,6 +16,7 @@ public class ProfileImageConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/profile/**")
+                //윈도우는 file:/, 리눅스는 file:/// 이다.
                 .addResourceLocations("file:/"+ uploadFolder);
 
     }
