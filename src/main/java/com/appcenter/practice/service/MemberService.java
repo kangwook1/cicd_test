@@ -22,6 +22,9 @@ import java.util.UUID;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static com.appcenter.practice.common.StatusCode.*;
 
 @Service
@@ -40,6 +43,13 @@ public class MemberService {
 
     public MemberRes getMember(Long memberId){
         Member member=findByMemberId(memberId);
+        return MemberRes.from(member);
+    }
+
+
+    public MemberRes getMemberByNickname(String nickname){
+        Member member=memberRepository.findByNickname(nickname)
+                .orElseThrow(()-> new CustomException(MEMBER_NOT_EXIST));
         return MemberRes.from(member);
     }
 
