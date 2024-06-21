@@ -26,6 +26,9 @@ public class CommentRes {
     @Schema(title = "멤버 아이디",description = "댓글 쓴 사람의 멤버 아이디", example = "1")
     private final Long memberId;
 
+    @Schema(title = "프로필 이미지",description = "댓글 쓴 사람의 프로필", example = "basic.jpg")
+    private final String profile;
+
     @Schema(title = "생성 시간",description = "댓글 생성 시간", example = "2024-05-26T14:25:07")
     private final LocalDateTime createdTime;
 
@@ -33,12 +36,13 @@ public class CommentRes {
     private final LocalDateTime modifiedTime;
 
     @Builder
-    private CommentRes(Long commentId, String content, Boolean deleted, String nickname, Long memberId, LocalDateTime createdTime, LocalDateTime modifiedTime) {
+    private CommentRes(Long commentId, String content, Boolean deleted, String nickname, Long memberId, String profile, LocalDateTime createdTime, LocalDateTime modifiedTime) {
         this.commentId = commentId;
         this.content = content;
         this.deleted = deleted;
         this.nickname = nickname;
         this.memberId = memberId;
+        this.profile = profile;
         this.createdTime = createdTime;
         this.modifiedTime = modifiedTime;
     }
@@ -54,6 +58,7 @@ public class CommentRes {
                 .deleted(comment.getDeleted())
                 .nickname(comment.getMember().getNickname())
                 .memberId(comment.getMember().getId())
+                .profile(comment.getMember().getProfile())
                 .createdTime(comment.getCreatedDate())
                 .modifiedTime(comment.getModifiedDate())
                 .build();

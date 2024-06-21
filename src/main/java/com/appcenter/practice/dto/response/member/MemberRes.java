@@ -18,11 +18,15 @@ public class MemberRes {
     @Schema(title = "닉네임", description = "닉네임", example = "냄B뚜껑")
     private final String nickname;
 
+    @Schema(title = "프로필", description = "프로필 이미지", example = "basic.jpg")
+    private final String profile;
+
     @Builder
-    public MemberRes(Long memberId, String email, String nickname) {
+    public MemberRes(Long memberId, String email, String nickname,String profile) {
         this.memberId = memberId;
         this.email = email;
         this.nickname = nickname;
+        this.profile= profile;
     }
 
     public static MemberRes from(Member member){
@@ -30,6 +34,7 @@ public class MemberRes {
                 .memberId(member.getId())
                 .email(member.getEmail())
                 .nickname(member.getNickname())
+                .profile(member.getProfile())
                 .build();
     }
 }
